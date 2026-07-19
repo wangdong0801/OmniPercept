@@ -1,0 +1,11 @@
+{
+  "name": "Remix: 多模态智能识别分析系统",
+  "description": "基于 Gemini 3.5-Flash 的图像与语音多模态智能识别系统，支持多种应用场景分析、处理过程可视化及结构化建议，提供完整的历史记录管理。",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
