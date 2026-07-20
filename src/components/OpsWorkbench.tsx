@@ -877,55 +877,74 @@ export const OpsWorkbench: React.FC<OpsWorkbenchProps> = ({ onConfigChanged }) =
         </div>
       </div>
 
-      {/* Internal Navigation Subtabs - Dock Style */}
-      <div className="flex flex-wrap gap-3 mb-8 bg-slate-950/40 p-1.5 rounded-[1.25rem] border border-white/5 w-fit backdrop-blur-md shadow-inner">
-        <button
-          type="button"
-          onClick={() => { setActiveSubTab("templates"); setEditingTemplateId(null); setIsAddingTemplate(false); }}
-          className={`px-5 py-2.5 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-all duration-300 cursor-pointer ${activeSubTab === "templates"
-            ? "bg-blue-600 text-white shadow-[0_4px_15px_-3px_rgba(37,99,235,0.4)] scale-[1.02]"
-            : "text-slate-500 hover:text-slate-200 hover:bg-white/5"
-            }`}
-        >
-          <Layers className={`h-4 w-4 ${activeSubTab === "templates" ? "text-white" : "text-slate-500"}`} />
-          分析模板 (Templates)
-        </button>
+      {/* Internal Navigation Subtabs - Dock Style with explicit hierarchy */}
+      <div className="flex flex-col lg:flex-row lg:items-stretch gap-5 mb-8 bg-slate-950/20 border border-white/5 p-4 rounded-[2rem] backdrop-blur-md shadow-inner">
+        {/* Left Side: Primary Business Level */}
+        <div className="flex flex-col gap-2 min-w-[220px] justify-between">
+          <span className="text-[10px] text-blue-400 font-bold uppercase tracking-wider flex items-center gap-2 pl-1.5 select-none">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)] animate-pulse" />
+            核心研判场景 (Core Scenarios)
+          </span>
+          <button
+            type="button"
+            onClick={() => { setActiveSubTab("templates"); setEditingTemplateId(null); setIsAddingTemplate(false); }}
+            className={`w-full px-5 py-3 text-xs font-black rounded-2xl flex items-center justify-center gap-2.5 transition-all duration-300 cursor-pointer ${activeSubTab === "templates"
+              ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-[0_8px_24px_-8px_rgba(37,99,235,0.5)] border border-blue-400/20 scale-[1.01]"
+              : "bg-slate-900/40 text-slate-400 hover:text-slate-200 hover:bg-slate-900/80 border border-white/5"
+              }`}
+          >
+            <Layers className="h-4 w-4" />
+            分析模板 (Templates)
+          </button>
+        </div>
 
-        <button
-          type="button"
-          onClick={() => { setActiveSubTab("libraries"); setEditingLibraryId(null); setIsAddingLibrary(false); }}
-          className={`px-5 py-2.5 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-all duration-300 cursor-pointer ${activeSubTab === "libraries"
-            ? "bg-blue-600 text-white shadow-[0_4px_15px_-3px_rgba(37,99,235,0.4)] scale-[1.02]"
-            : "text-slate-500 hover:text-slate-200 hover:bg-white/5"
-            }`}
-        >
-          <Database className={`h-4 w-4 ${activeSubTab === "libraries" ? "text-white" : "text-slate-500"}`} />
-          参考样本 (Samples)
-        </button>
+        {/* Visual vertical divider (only visible on large screens) */}
+        <div className="hidden lg:block w-px bg-gradient-to-b from-white/0 via-white/10 to-white/0 shrink-0 self-stretch my-1" />
 
-        <button
-          type="button"
-          onClick={() => { setActiveSubTab("agents"); setEditingAgentId(null); setIsAddingAgent(false); }}
-          className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-2 transition-all cursor-pointer ${activeSubTab === "agents"
-            ? "bg-blue-600 text-white shadow-lg scale-[1.02]"
-            : "text-slate-500 hover:text-slate-200 hover:bg-white/5"
-            }`}
-        >
-          <Bot className={`h-4 w-4 ${activeSubTab === "agents" ? "text-white" : "text-slate-500"}`} />
-          智能 Agent (Agents)
-        </button>
+        {/* Right Side: Secondary Supporting Assets & Library Level */}
+        <div className="flex-1 flex flex-col gap-2 justify-between">
+          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-2 pl-1.5 select-none">
+            <span className="h-1.5 w-1.5 rounded-full bg-slate-400/50" />
+            底层支撑资产库 (Supporting Libraries)
+          </span>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-950/40 p-1.5 rounded-2xl border border-white/5">
+            <button
+              type="button"
+              onClick={() => { setActiveSubTab("libraries"); setEditingLibraryId(null); setIsAddingLibrary(false); }}
+              className={`px-4 py-3 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeSubTab === "libraries"
+                ? "bg-slate-800 text-white border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)] scale-[1.01]"
+                : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                }`}
+            >
+              <Database className="h-3.5 w-3.5" />
+              参考样本 (Samples)
+            </button>
 
-        <button
-          type="button"
-          onClick={() => { setActiveSubTab("skills"); setEditingSkillId(null); setIsAddingSkill(false); }}
-          className={`px-4 py-2 text-xs font-semibold rounded-xl flex items-center gap-2 transition-all cursor-pointer ${activeSubTab === "skills"
-            ? "bg-blue-600 text-white shadow-lg scale-[1.02]"
-            : "text-slate-500 hover:text-slate-200 hover:bg-white/5"
-            }`}
-        >
-          <Zap className={`h-4 w-4 ${activeSubTab === "skills" ? "text-white" : "text-slate-500"}`} />
-          专业 Skill (Skills)
-        </button>
+            <button
+              type="button"
+              onClick={() => { setActiveSubTab("agents"); setEditingAgentId(null); setIsAddingAgent(false); }}
+              className={`px-4 py-3 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeSubTab === "agents"
+                ? "bg-slate-800 text-white border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)] scale-[1.01]"
+                : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                }`}
+            >
+              <Bot className="h-3.5 w-3.5" />
+              智能 Agent (Agents)
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setActiveSubTab("skills"); setEditingSkillId(null); setIsAddingSkill(false); }}
+              className={`px-4 py-3 text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${activeSubTab === "skills"
+                ? "bg-slate-800 text-white border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.3)] scale-[1.01]"
+                : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                }`}
+            >
+              <Zap className="h-3.5 w-3.5" />
+              专业 Skill (Skills)
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* SUB-PANEL 1: ANALYSIS TEMPLATE CONFIGURATION */}

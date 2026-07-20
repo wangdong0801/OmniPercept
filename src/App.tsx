@@ -237,12 +237,20 @@ export default function App() {
 
   return (
     <div className="h-screen bg-[#080d1a] text-slate-100 flex flex-col font-sans selection:bg-blue-600/30 selection:text-white overflow-hidden">
-
       {/* Sleek Fixed Top Header */}
       <header className="shrink-0 bg-[#111827]/95 border-b border-slate-800 px-4 md:px-8 py-3 flex items-center justify-between shadow-lg z-10">
         <div className="flex items-center gap-2.5">
           <div className="h-9 w-9 bg-blue-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-[0_0_10px_rgba(37,99,235,0.4)]">
-            <BrainCircuit className="h-5 w-5" />
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="6" width="18" height="13" rx="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M12 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="12" cy="2" r="1" fill="#00F2FF"/>
+              <circle cx="8.5" cy="11.5" r="1.5" fill="#00F2FF"/>
+              <circle cx="15.5" cy="11.5" r="1.5" fill="#00F2FF"/>
+              <path d="M9 15.5H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              <rect x="1" y="10" width="2" height="5" rx="1" fill="#00F2FF"/>
+              <rect x="21" y="10" width="2" height="5" rx="1" fill="#00F2FF"/>
+            </svg>
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">

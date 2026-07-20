@@ -1821,7 +1821,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
           contentPayload.push({ type: "audio_url", audio_url: { url: base64Data } });
         }
       }
-
+      contentPayload.unshift({ type: "text", text: '请用不超过100字的简短文字输出思考内容，思考过程控制在6秒以内。' })
       // Prepare messages
       const messages = [
         {
@@ -1837,7 +1837,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
       // qwen-vl-max-latest: 支持文本、图片、视频
       // qwen-audio-turbo: 支持文本、音频
       // qwen3.7-plus: 纯文本
-      let targetModel = "qwen-omni-turbo"; // 默认使用支持最全的 omni 模型
+      let targetModel = "qwen3.7-plus"; // 默认使用支持最全的 omni 模型
 
       const hasVideo = mediaItems.some(item => item.type === "video");
       const hasAudio = mediaItems.some(item => item.type === "audio");
@@ -1845,13 +1845,13 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
 
       // 如果有音频或者各种混合，最安全的是用 omni-turbo
       // 也可以根据具体情况细分：
-      if (hasAudio && !hasVideo && !hasImage) {
-        targetModel = "qwen-audio-turbo"; // 纯音频可以走专门的音频模型
-      } else if (hasVideo && !hasAudio) {
-        targetModel = "qwen-vl-max-latest"; // 视频+图片 可以走 VL 模型
-      } else if (hasImage && !hasVideo && !hasAudio) {
-        targetModel = "qwen3.7-plus"; // 纯图片走 VL 模型
-      }
+      // if (hasAudio && !hasVideo && !hasImage) {
+      //   targetModel = "qwen-audio-turbo"; // 纯音频可以走专门的音频模型
+      // } else if (hasVideo && !hasAudio) {
+      //   targetModel = "qwen-vl-max-latest"; // 视频+图片 可以走 VL 模型
+      // } else if (hasImage && !hasVideo && !hasAudio) {
+      //   targetModel = "qwen3.7-plus"; // 纯图片走 VL 模型
+      // }
 
       const response = await fetch(baseUrl, {
         method: "POST",
@@ -2822,7 +2822,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
                                 <div className="absolute left-0 top-0 bottom-0 w-[2px] rounded bg-blue-500/30" />
                                 <div
                                   ref={thinkingScrollRef}
-                                  className="pl-3.5 py-1 text-blue-400 text-xs font-sans tracking-wide leading-relaxed whitespace-pre-wrap max-h-[180px] overflow-y-auto pr-1 select-text scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-800"
+                                  className="pl-3.5 py-1 text-blue-400 text-xs font-sans tracking-wide leading-relaxed whitespace-pre-wrap max-h-[100px] overflow-y-auto pr-1 select-text scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-800"
                                 >
                                   {cleanedContent}
                                 </div>
@@ -2843,7 +2843,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
                           return (
                             <div
                               ref={thinkingScrollRef}
-                              className="space-y-2 max-h-[180px] overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-800"
+                              className="space-y-2 max-h-[120px] overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-slate-800"
                             >
                               {logs.map((log, logIdx) => {
                                 const isPast = showFinalResult || (!isThinking && thinkingStep > 0) || (dynamicThinkingLogs.length === 0 && thinkingStep > logIdx) || (dynamicThinkingLogs.length > 0 && logIdx < dynamicThinkingLogs.length - 1);
@@ -3026,13 +3026,10 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
                         <div className="mt-4 flex items-center justify-start border-t border-slate-800/60 pt-4">
                           <button
                             type="button"
-                            onClick={() => {
-                              alert("图谱关联 Mapping：系统已将识别出的目标特征、合规属性与底层 knowledge base（" + (selectedTemplate?.name || "当前库") + "）进行实时关联映射。");
-                            }}
                             className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 px-2.5 py-1 text-[10px] font-semibold text-blue-400 cursor-pointer active:scale-95 transition-all shadow-[0_0_10px_rgba(59,130,246,0.15)]"
                           >
                             <Network className="h-3 w-3 animate-pulse text-blue-400" />
-                            <span>知识图谱关联 Mapping</span>
+                            <span>知识图谱关联</span>
                           </button>
                         </div>
 
