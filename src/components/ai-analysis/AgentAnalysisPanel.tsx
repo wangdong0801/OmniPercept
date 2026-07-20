@@ -1815,13 +1815,14 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
 
         if (item.type === "image") {
           contentPayload.push({ type: "image_url", image_url: { url: base64Data } });
-        } else if (item.type === "video") {
-          contentPayload.push({ type: "video_url", video_url: { url: base64Data } });
-        } else if (item.type === "audio") {
-          contentPayload.push({ type: "audio_url", audio_url: { url: base64Data } });
         }
+        // else if (item.type === "video") {
+        //   contentPayload.push({ type: "video_url", video_url: { url: base64Data } });
+        // } else if (item.type === "audio") {
+        //   contentPayload.push({ type: "audio_url", audio_url: { url: base64Data } });
+        // }
       }
-      contentPayload.unshift({ type: "text", text: '请用不超过100字的简短文字输出思考内容，思考过程控制在6秒以内。' })
+      contentPayload.unshift({ type: "text", text: '思考过程控制在8秒以内。' })
       // Prepare messages
       const messages = [
         {
