@@ -13,6 +13,7 @@ import {
   Zap,
   Maximize2,
   ExternalLink,
+  Download,
   X,
   Camera,
   Trash2,
@@ -705,6 +706,22 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
   }, [onSimulationComplete]);
   const historyRef = useRef<HTMLDivElement>(null);
   const sessionIdRef = useRef<string>(`session_${Math.random().toString(36).substring(2, 11)}`);
+
+  const handleDownloadHistory = () => {
+    if (history.length === 0) return;
+    const safeTimestamp = new Date().toISOString().replace(/[:.]/g, "-").replace("T", "_").replace("Z", "");
+    const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), history }, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `ai_analysis_history_${safeTimestamp}.json`;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  };
 
   // 当分析开始时自动关闭历史下拉菜单
   useEffect(() => {
@@ -1822,7 +1839,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
         //   contentPayload.push({ type: "audio_url", audio_url: { url: base64Data } });
         // }
       }
-      contentPayload.unshift({ type: "text", text: '思考过程控制在8秒以内。' })
+      contentPayload.unshift({ type: "text", text: '思考输出的文字不要超过100字，思考过程控制在5秒以内。' })
       // Prepare messages
       const messages = [
         {
@@ -3198,6 +3215,18 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
                   <span className="rounded-full bg-blue-950/40 border border-blue-900/30 px-2 py-0.5 text-[9px] font-bold text-blue-400">
                     {history.length} 条记录
                   </span>
+                  {/* <button
+                    type="button"
+                    disabled={history.length === 0}
+                    onClick={handleDownloadHistory}
+                    title={history.length === 0 ? "暂无历史可下载" : "下载历史记录（JSON）"}
+                    className={`flex h-7 w-7 items-center justify-center rounded-lg border border-slate-800 bg-slate-900/40 text-slate-400 active:scale-95 transition-all ${history.length === 0
+                      ? "cursor-not-allowed opacity-40"
+                      : "hover:text-slate-100 hover:bg-slate-850"
+                      }`}
+                  >
+                    <Download className="h-4 w-4" />
+                  </button> */}
                   <button
                     type="button"
                     onClick={() => setShowHistoryDropdown(false)}
