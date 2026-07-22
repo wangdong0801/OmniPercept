@@ -548,8 +548,8 @@ export const RealtimeAnalysisPanel = React.forwardRef<RealtimeAnalysisPanelHandl
 
   const [tempUrl, setTempUrl] = useState(config.streamUrl);
   const [tempToken, setTempToken] = useState(config.accessToken);
-  const [ezvizAppKey, setEzvizAppKey] = useState(localStorage.getItem("EZVIZ_APP_KEY") || process.env.EZVIZ_APP_KEY || "");
-  const [ezvizAppSecret, setEzvizAppSecret] = useState(localStorage.getItem("EZVIZ_APP_SECRET") || process.env.EZVIZ_APP_SECRET || "");
+  const [ezvizAppKey, setEzvizAppKey] = useState(localStorage.getItem("EZVIZ_APP_KEY") || process.env.EZVIZ_APP_KEY || "99020de0babb4e26aa9d574b500c5d19");
+  const [ezvizAppSecret, setEzvizAppSecret] = useState(localStorage.getItem("EZVIZ_APP_SECRET") || process.env.EZVIZ_APP_SECRET || "bebbd9a30e81e9e62865bc2b7fdff04c");
   const [isFetchingToken, setIsFetchingToken] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string>("");
   const [showSettings, setShowSettings] = useState(false);

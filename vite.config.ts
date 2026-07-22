@@ -9,7 +9,7 @@ dotenv.config();
 
 export default defineConfig(() => {
   const shouldDisableHmr = process.env.DISABLE_HMR === 'true';
-
+  
   return {
     plugins: [react(), tailwindcss()],
     define: {
@@ -17,6 +17,7 @@ export default defineConfig(() => {
       'process.env.EZVIZ_APP_KEY': JSON.stringify(process.env.EZVIZ_APP_KEY || ""),
       'process.env.EZVIZ_APP_SECRET': JSON.stringify(process.env.EZVIZ_APP_SECRET || ""),
     },
+    base: '/ai/',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -24,7 +25,7 @@ export default defineConfig(() => {
     },
     server: {
       host: '0.0.0.0',
-      port: 4000,
+      port: 8000,
       allowedHosts: true,
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
