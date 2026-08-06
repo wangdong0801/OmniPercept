@@ -2,14 +2,14 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
-import {defineConfig} from 'vite';
+import { defineConfig } from 'vite';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 export default defineConfig(() => {
   const shouldDisableHmr = process.env.DISABLE_HMR === 'true';
-  
+
   return {
     plugins: [react(), tailwindcss()],
     define: {
@@ -25,7 +25,7 @@ export default defineConfig(() => {
     },
     server: {
       host: '0.0.0.0',
-      port: 8000,
+      port: 4000,
       allowedHosts: true,
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
       // Do not modifyâfile watching is disabled to prevent flickering during agent edits.
@@ -34,8 +34,8 @@ export default defineConfig(() => {
       watch: shouldDisableHmr
         ? null
         : {
-            ignored: ['**/data/**', '**/.runtime-data/**', '**/history.json', '**/.dbg/**'],
-          },
+          ignored: ['**/data/**', '**/.runtime-data/**', '**/history.json', '**/.dbg/**'],
+        },
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const url = req.url || '';
@@ -44,7 +44,7 @@ export default defineConfig(() => {
             const workspaceRoot = process.cwd();
             const decodedPath = decodeURIComponent(cleanPath);
             const cleanRelative = decodedPath.startsWith('/') ? decodedPath.substring(1) : decodedPath;
-            
+
             const searchPaths = [
               path.join(workspaceRoot, cleanRelative),
               path.join(workspaceRoot, 'public', cleanRelative),

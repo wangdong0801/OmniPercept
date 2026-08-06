@@ -211,6 +211,7 @@ export const RealtimeAnalysisPanel = React.forwardRef<RealtimeAnalysisPanelHandl
   const windowResizeHandlerRef = useRef<(() => void) | null>(null);
   const resizeTimeoutRef = useRef<any>(null);
   const initSeqRef = useRef(0);
+  const hasAutoLoadedRef = useRef(false);
 
   // 手动录制相关状态
   const [isManualVideoRecording, setIsManualVideoRecording] = useState(false);
@@ -649,24 +650,29 @@ export const RealtimeAnalysisPanel = React.forwardRef<RealtimeAnalysisPanelHandl
     }
   }, [ezvizAppKey, ezvizAppSecret, tempToken, handleRefreshEzvizToken]);
 
-  // 自动加载第一个视频的逻辑
+  // 自动加载视频的逻辑
   useEffect(() => {
-    // 如果设备列表不为空，且当前没有配置视频流地址（或使用的是默认测试地址）
-    if (deviceList.length > 0 && (!config.streamUrl || config.streamUrl === DEFAULT_STREAM_URL)) {
-      const firstDevice = deviceList[0];
-      console.log("[RealtimePanel] Auto-loading first video:", firstDevice.label);
+    // 仅在组件挂载后且获取到设备列表时执行一次自动加载逻辑
+    if (deviceList.length > 0 && !hasAutoLoadedRef.current) {
+      hasAutoLoadedRef.current = true;
+
+      // 优先选择 "龙游机器狗"，否则选择第一个在线设备
+      const dogDevice = deviceList.find(d => d.label.includes("龙游机器狗"));
+      const targetDevice = dogDevice || deviceList[0];
+
+      console.log("[RealtimePanel] Auto-loading default device:", targetDevice.label);
 
       const nextConfig = {
         ...config,
-        streamUrl: firstDevice.value,
+        streamUrl: targetDevice.value,
         accessToken: tempToken || config.accessToken // 确保使用最新的 token
       };
 
-      // 1. 更新父组件配置，从而触发播放器初始化
+      // 1. 更新父组件配置
       onConfigChange(nextConfig);
       // 2. 同步到本地存储，确保刷新后依然生效
       localStorage.setItem("ai_analysis_stream_config", JSON.stringify(nextConfig));
-      // 3. 触发连接动作
+      // 3. 触发连接动作，启动播放器
       onConnect();
     }
   }, [deviceList, config, onConfigChange, onConnect, tempToken]);
