@@ -242,14 +242,14 @@ export default function App() {
         <div className="flex items-center gap-2.5">
           <div className="h-9 w-9 bg-blue-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-[0_0_10px_rgba(37,99,235,0.4)]">
             <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="6" width="18" height="13" rx="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M12 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="2" r="1" fill="#00F2FF"/>
-              <circle cx="8.5" cy="11.5" r="1.5" fill="#00F2FF"/>
-              <circle cx="15.5" cy="11.5" r="1.5" fill="#00F2FF"/>
-              <path d="M9 15.5H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              <rect x="1" y="10" width="2" height="5" rx="1" fill="#00F2FF"/>
-              <rect x="21" y="10" width="2" height="5" rx="1" fill="#00F2FF"/>
+              <rect x="3" y="6" width="18" height="13" rx="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path d="M12 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="12" cy="2" r="1" fill="#00F2FF" />
+              <circle cx="8.5" cy="11.5" r="1.5" fill="#00F2FF" />
+              <circle cx="15.5" cy="11.5" r="1.5" fill="#00F2FF" />
+              <path d="M9 15.5H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              <rect x="1" y="10" width="2" height="5" rx="1" fill="#00F2FF" />
+              <rect x="21" y="10" width="2" height="5" rx="1" fill="#00F2FF" />
             </svg>
           </div>
           <div>
@@ -310,7 +310,7 @@ export default function App() {
               智能分析
             </button> */}
 
-             <button
+            <button
               id="nav-tab-ai"
               type="button"
               onClick={() => setActiveTab("ai")}
@@ -332,13 +332,12 @@ export default function App() {
                 }
                 setActiveTab("ops");
               }}
-              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all ${
-                hasActiveTask
-                  ? "opacity-40 cursor-not-allowed text-slate-500 hover:text-slate-500"
-                  : activeTab === "ops"
-                    ? "bg-blue-600 text-white shadow-md border-transparent cursor-pointer"
-                    : "text-slate-400 hover:text-slate-200 cursor-pointer"
-              }`}
+              className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all ${hasActiveTask
+                ? "opacity-40 cursor-not-allowed text-slate-500 hover:text-slate-500"
+                : activeTab === "ops"
+                  ? "bg-blue-600 text-white shadow-md border-transparent cursor-pointer"
+                  : "text-slate-400 hover:text-slate-200 cursor-pointer"
+                }`}
               title={hasActiveTask ? "自动分析运行中，无法切换页面" : undefined}
             >
               <Settings className="h-3.5 w-3.5" />
@@ -382,13 +381,12 @@ export default function App() {
                   }
                   setAiMode(option.id as any);
                 }}
-                className={`px-3 py-1.5 text-[11px] font-bold rounded-lg transition-all select-none ${
-                  hasActiveTask && aiMode !== option.id
-                    ? "opacity-40 cursor-not-allowed text-slate-500 hover:text-slate-500"
-                    : aiMode === option.id
-                      ? "bg-blue-600 text-white shadow-md shadow-blue-900/25 cursor-pointer"
-                      : "text-slate-400 hover:text-slate-200 cursor-pointer"
-                }`}
+                className={`px-3 py-1.5 text-[11px] font-bold rounded-lg transition-all select-none ${hasActiveTask && aiMode !== option.id
+                  ? "opacity-40 cursor-not-allowed text-slate-500 hover:text-slate-500"
+                  : aiMode === option.id
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-900/25 cursor-pointer"
+                    : "text-slate-400 hover:text-slate-200 cursor-pointer"
+                  }`}
                 title={hasActiveTask ? "自动分析运行中，无法切换大模型" : undefined}
               >
                 {option.label}

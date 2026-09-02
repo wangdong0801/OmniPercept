@@ -1807,7 +1807,22 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
       const rawApiKey = localStorage.getItem("qwen_api_key") || "sk-ws-H.EDYRHDL.Se7K.MEUCIQD6kcSRZe-h1F43m7lJMhaDw8LL_LGg1pxIOXQwvyLdYwIgAz6HRcYN3qHW31nwX-wUdi961QejFMdXgzaZjqbsHWs";
       const apiKey = rawApiKey.trim();
 
-      const baseUrl = "https://ws-t4w9zybkwmpgja5b.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/chat/completions";
+      // 动态读取当前选中的推理大模型（默认 qwen3-vl:8b）
+      const selectedModel = localStorage.getItem("selected_qwen_model") || "qwen3-vl:8b";
+      const isOllama = selectedModel !== "qwen3.7-plus";
+
+      let baseUrl = "https://ws-t4w9zybkwmpgja5b.cn-beijing.maas.aliyuncs.com/compatible-mode/v1/chat/completions";
+      let requestHeaders: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (isOllama) {
+        baseUrl = "http://127.0.0.1:11434/v1/chat/completions";
+        requestHeaders["Authorization"] = "Bearer ollama";
+      } else {
+        requestHeaders["Authorization"] = `Bearer ${apiKey}`;
+        requestHeaders["X-DashScope-WorkSpace"] = "ws-t4w9zybkwmpgja5b";
+      }
 
       // 构造 content 数组（支持多模态及多文件并发）
       const contentPayload: any[] = [
@@ -1855,7 +1870,7 @@ export const AgentAnalysisPanel = React.forwardRef<AgentAnalysisPanelHandle, Age
       // qwen-vl-max-latest: 支持文本、图片、视频
       // qwen-audio-turbo: 支持文本、音频
       // qwen3.7-plus: 纯文本
-      let targetModel = "qwen3.7-plus"; // 默认使用支持最全的 omni 模型
+      let targetModel = selectedModel; // 默认使用支持最全的 omni 模型
 
       const hasVideo = mediaItems.some(item => item.type === "video");
       const hasAudio = mediaItems.some(item => item.type === "audio");
